@@ -1,0 +1,47 @@
+# cron job for 2 mins
+(crontab -l 2>/dev/null; echo "*/2 * * * * /path/to/monitor_and_scale.sh >> /var/log/monitor.log 2>&1") | crontab -
+
+tail -f /var/log/monitor.log
+
+# for stress on cpu
+yes > /dev/null &
+
+# after work stress test we kill process
+
+kill -9 pid
+
+# startup script on VM 
+sudo apt-get update
+sudo apt-get install -y docker.io
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+sudo usermod -aG docker $USER
+newgrp docker
+
+docker pull divyaanshmertia/pdf-merger:1.1
+docker run -d -p 4000:4000 --name pdf-merger divyaanshmertia/pdf-merger:1.1
+
+
+# creating docker image from dockerfile 
+
+docker build -t divyaanshmertia/pdf-merger:1.0 .
+docker push divyaanshmertia/pdf-merger:1.1
+\
+
+
+
+ (sudo crontab -l 2>/dev/null; echo "*/1 * * * * /home/merger/Documents/vcc/pdf-merger/monitor_and_scale.sh >> /var/log/monitor.log 2>&1") | crontab -
+ 
+
+merger@VM2-PDF-Merger:~/Documents/vcc/pdf-merger$ sudo touch /var/log/monitor.log
+
+sudo chmod 666 /var/log/monitor.log
+merger@VM2-PDF-Merger:~/Documents/vcc/pdf-merger$ sudo chmod 666 /var/log/monitor.log
+
+merger@VM2-PDF-Merger:~/Documents/vcc/pdf-merger$ tail -f /var/log/monitor.log
+
+
+
+curl -X POST -F "pdfs=@01.pdf" -F "pdfs=@02.pdf" http://:4000 --output merged.pdf
